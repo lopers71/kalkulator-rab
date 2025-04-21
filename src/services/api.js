@@ -1,5 +1,5 @@
 // API URL akan sama dengan frontend URL di production
-const API_URL = import.meta.env.DEV ? 'http://localhost:3001' : ''
+const API_URL = import.meta.env.DEV ? 'http://localhost:3001' : window.location.origin
 
 export const api = {
   // Material

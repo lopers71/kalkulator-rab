@@ -7,21 +7,23 @@ import { dirname, join } from 'path'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
+// Create Express server
 const app = express()
 
-// CORS configuration
-const corsOptions = {
-  origin: ['http://localhost:5173', 'https://kalkulator-rab.vercel.app'],
-  optionsSuccessStatus: 200
+// Initial data for json-server
+const initialData = {
+  "material_costs": [],
+  "price_history": []
 }
 
-app.use(cors(corsOptions))
+// CORS configuration
+app.use(cors())
 
 // Parse JSON bodies
 app.use(express.json())
 
-// JSON Server setup
-const router = jsonServer.router(join(__dirname, 'db.json'))
+// JSON Server setup with in-memory data
+const router = jsonServer.router(initialData)
 const middlewares = jsonServer.defaults()
 
 // Use default json-server middlewares
@@ -30,7 +32,13 @@ app.use(middlewares)
 // Use json-server router
 app.use(router)
 
-const PORT = process.env.PORT || 3001
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`)
-}) 
+// For local development
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 3001
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`)
+  })
+}
+
+// For Vercel
+export default app 
