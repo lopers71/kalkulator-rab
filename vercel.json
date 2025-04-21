@@ -1,0 +1,28 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "server/server.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist" }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/material_costs(.*)",
+      "dest": "server/server.js"
+    },
+    {
+      "src": "/price_history(.*)",
+      "dest": "server/server.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ]
+} 
